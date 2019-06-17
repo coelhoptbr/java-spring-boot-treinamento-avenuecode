@@ -1,19 +1,14 @@
 package br.com.sicredi.treinamento.revendedora_plus.dto;
 
-public class CarroDTO {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-  private Long id;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class OutCarroDTO {
+
   private String placa;
   private String modelo;
   private String marca;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getPlaca() {
     return placa;

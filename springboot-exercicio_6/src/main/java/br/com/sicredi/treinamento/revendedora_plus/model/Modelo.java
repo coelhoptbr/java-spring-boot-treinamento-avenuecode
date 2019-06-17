@@ -42,4 +42,10 @@ public class Modelo {
   public void setMarca(Marca marca) {
     this.marca = marca;
   }
+
+  public Modelo() {}
+
+  public Modelo(Long id) {
+    this.id = id;
+  }
 }

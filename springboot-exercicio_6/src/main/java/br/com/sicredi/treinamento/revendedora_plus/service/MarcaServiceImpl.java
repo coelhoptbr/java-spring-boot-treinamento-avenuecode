@@ -2,8 +2,10 @@ package br.com.sicredi.treinamento.revendedora_plus.service;
 
 import br.com.sicredi.treinamento.revendedora_plus.model.Marca;
 import br.com.sicredi.treinamento.revendedora_plus.repository.MarcaRepository;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MarcaServiceImpl implements MarcaService {
@@ -22,5 +24,9 @@ public class MarcaServiceImpl implements MarcaService {
   @Override
   public List<Marca> findAll() {
     return marcaRepository.findAll();
+  }
+
+  public Optional<Marca> findById(Long id) {
+    return marcaRepository.findById(id);
   }
 }
