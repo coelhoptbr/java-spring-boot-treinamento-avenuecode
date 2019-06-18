@@ -1,20 +1,33 @@
 package br.com.sicredi.treinamento.revendedora_plus.service;
 
+import br.com.sicredi.treinamento.revendedora_plus.dto.SituacaoClienteDTO;
 import br.com.sicredi.treinamento.revendedora_plus.exception.NaoEncontradoException;
+import br.com.sicredi.treinamento.revendedora_plus.exception.NaoPositivadoException;
 import br.com.sicredi.treinamento.revendedora_plus.model.Cliente;
 import br.com.sicredi.treinamento.revendedora_plus.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
 
+    private final RestTemplate restTemplate;
     private final ClienteRepository clienteRepository;
+    private final String urlServicoSituacao;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository) {
+    public ClienteServiceImpl(
+            RestTemplate restTemplate,
+            ClienteRepository clienteRepository,
+            @Value("${services.credito.url}") String urlServicoSituacao) {
+        this.restTemplate = restTemplate;
         this.clienteRepository = clienteRepository;
+        this.urlServicoSituacao = urlServicoSituacao;
     }
 
     @Override
@@ -33,9 +46,24 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public void create(Cliente cliente) {
+    public void create(Cliente cliente) throws NaoPositivadoException {
         cliente.setId(null);
-        clienteRepository.save(cliente);
+
+        Map<String, String> mapParams = new HashMap<String, String>();
+        mapParams.put("cpf", cliente.getDocumento()
+                        .replace("-", "")
+                        .replace(".", ""));
+
+        SituacaoClienteDTO situacaoDTO = restTemplate.getForObject(
+                urlServicoSituacao,
+                SituacaoClienteDTO.class,
+                mapParams);
+
+        if (situacaoDTO.isPositivado()) {
+            clienteRepository.save(cliente);
+        } else {
+            throw new NaoPositivadoException("Pessoa física negativada.");
+        }
     }
 
     @Override

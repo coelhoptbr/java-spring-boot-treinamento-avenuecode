@@ -3,6 +3,8 @@ package br.com.sicredi.treinamento.revendedora_plus.service;
 import br.com.sicredi.treinamento.revendedora_plus.model.Carro;
 import br.com.sicredi.treinamento.revendedora_plus.repository.CarroRepository;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -14,7 +16,8 @@ public class CarroServiceImpl implements CarroService {
   private final ModeloService modeloService;
 
   public CarroServiceImpl(
-      CarroRepository carroRepository, FipeService fipeService, ModeloService modeloService) {
+      CarroRepository carroRepository, FipeService fipeService,
+      ModeloService modeloService) {
     this.carroRepository = carroRepository;
     this.fipeService = fipeService;
     this.modeloService = modeloService;

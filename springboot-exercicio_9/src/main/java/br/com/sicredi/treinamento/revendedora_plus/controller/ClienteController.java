@@ -2,9 +2,11 @@ package br.com.sicredi.treinamento.revendedora_plus.controller;
 
 import br.com.sicredi.treinamento.revendedora_plus.dto.ClienteDTO;
 import br.com.sicredi.treinamento.revendedora_plus.exception.NaoEncontradoException;
+import br.com.sicredi.treinamento.revendedora_plus.exception.NaoPositivadoException;
 import br.com.sicredi.treinamento.revendedora_plus.model.Cliente;
 import br.com.sicredi.treinamento.revendedora_plus.service.ClienteService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +55,11 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody ClienteDTO clienteDTO) {
         Cliente cli = mapper.map(clienteDTO, Cliente.class);
-        clienteService.create(cli);
+        try {
+            clienteService.create(cli);
+        } catch (NaoPositivadoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
         return ResponseEntity.created(URI.create("/clientes/" + cli.getId())).build();
     }
 

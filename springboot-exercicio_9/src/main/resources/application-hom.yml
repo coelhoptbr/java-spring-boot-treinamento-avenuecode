@@ -3,4 +3,4 @@ services:
     url: https://fipe-api-homolog.herokuapp.com/fipe/{modelo}/{anoModelo}
 
   credito:
-    url: https://credito-api-homolog.herokuapp.com/situacao/{cpf}
+    url: http://172.22.101.33:8090/situacao/{cpf}
