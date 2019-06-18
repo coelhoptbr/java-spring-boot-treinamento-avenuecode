@@ -4,4 +4,4 @@ spring:
       ddl-auto: none
 fipe:
   servico:
-    url: http://172.22.101.33:8091/fipe
+    url: http://172.22.101.33:8090/fipe

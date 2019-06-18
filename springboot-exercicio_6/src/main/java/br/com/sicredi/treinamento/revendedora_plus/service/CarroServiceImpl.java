@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -19,12 +20,14 @@ public class CarroServiceImpl implements CarroService {
 
   private final RestTemplate restTemplate;
   private final CarroRepository carroRepository;
-  private final String URLServicoValor = "http://172.22.101.33:8090/fipe";
+  private final String URLServicoValor;
 
   public CarroServiceImpl(RestTemplate restTemplate,
-                          CarroRepository carroRepository) {
+                          CarroRepository carroRepository,
+                          @Value("${fipe.servico.url}") String URLServicoValor) {
     this.restTemplate = restTemplate;
     this.carroRepository = carroRepository;
+    this.URLServicoValor = URLServicoValor;
   }
 
   @Override
@@ -62,7 +65,6 @@ public class CarroServiceImpl implements CarroService {
             mapParams);
 
     carro.setValor(outVal.getValor());
-
     return carroRepository.save(carro);
   }
 }
