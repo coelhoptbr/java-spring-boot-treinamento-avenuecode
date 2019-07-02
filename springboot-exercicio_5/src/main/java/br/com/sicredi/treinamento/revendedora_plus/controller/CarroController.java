@@ -21,7 +21,7 @@ public class CarroController {
   //http://localhost:8080/carros?modelo=2&placa=AAA-1111
   @GetMapping
   public List<Carro> getCarros(
-          @RequestParam(required = false, value = "modelo") Long idModelo,
+          @RequestParam(required = false, name = "modelo") Long idModelo,
           @RequestParam(required = false) String placa) {
     return carroService.findAllByFilter(idModelo, placa);
   }
