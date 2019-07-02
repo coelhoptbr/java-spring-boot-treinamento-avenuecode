@@ -1,0 +1,6 @@
+services:
+  fipe:
+    url: https://fipe-api-prod.herokuapp.com/fipe/{modelo}/{anoModelo}
+
+  credito:
+    url: https://credito-api.herokuapp.com/situacao/{cpf}
