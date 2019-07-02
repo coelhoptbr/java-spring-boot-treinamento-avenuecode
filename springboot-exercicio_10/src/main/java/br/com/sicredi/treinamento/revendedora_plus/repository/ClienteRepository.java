@@ -10,6 +10,6 @@ public interface ClienteRepository extends CrudRepository<Cliente, Long> {
 
     List<Cliente> findAllByRendaFamiliarBetween(BigDecimal rendaMin, BigDecimal rendaMax);
 
-    List<Cliente> findAllByRendaFamiliarGreaterThan(BigDecimal rendaMin);
+    List<Cliente> findAllByRendaFamiliarGreaterThanEqual(BigDecimal rendaMin);
 
 }
