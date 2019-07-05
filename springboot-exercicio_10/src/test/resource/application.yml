@@ -1,0 +1,5 @@
+services:
+  fipe:
+    url: http://test.fipeService.com/fipe/{modelo}/{anoModelo}
+  credito:
+    url: http://credito-api-homolog.herokuapp.com/situacao/{cpf}

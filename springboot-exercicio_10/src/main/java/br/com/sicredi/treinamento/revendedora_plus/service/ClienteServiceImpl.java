@@ -1,15 +1,14 @@
 package br.com.sicredi.treinamento.revendedora_plus.service;
 
-import br.com.sicredi.treinamento.revendedora_plus.enumeration.ClasseSocialEnum;
 import br.com.sicredi.treinamento.revendedora_plus.model.Cliente;
 import br.com.sicredi.treinamento.revendedora_plus.repository.ClienteRepository;
+import br.com.sicredi.treinamento.revendedora_plus.types.ClasseSocial;
 import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -25,20 +24,15 @@ public class ClienteServiceImpl implements ClienteService {
   }
 
   @Override
-  public List<Cliente> findAll(ClasseSocialEnum classeSocial) {
+  public List<Cliente> findAll(ClasseSocial classeSocial) {
     if (classeSocial == null) {
       return Lists.newArrayList(clienteRepository.findAll());
     } else {
-        if (classeSocial.getRendaFamiliarMaxima() == null) {
-          return clienteRepository
-                  .findAllByRendaFamiliarGreaterThan(
-                          classeSocial.getRendaFamiliarMinima());
-        } else {
-          return clienteRepository
-                  .findAllByRendaFamiliarBetween(
-                          classeSocial.getRendaFamiliarMinima(),
-                          classeSocial.getRendaFamiliarMaxima());
-        }
+      if (classeSocial.getValorMaximo() == null) {
+        return clienteRepository.findAllByRendaFamiliarGreaterThanEqual(classeSocial.getValorMinimo());
+      } else {
+        return clienteRepository.findAllByRendaFamiliarBetween(classeSocial.getValorMinimo(), classeSocial.getValorMaximo());
+      }
     }
   }
 
